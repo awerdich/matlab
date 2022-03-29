@@ -26,6 +26,10 @@ sideport1=pixelsize_x/p;
 % d1=100;%distance in um
 % sideport1=n0/mean([n1,n2]);%
 
+magnification=20;
+optovar=1;
+sideport=0.5;
+binning=1;
 
 %set default microscope configuration
 if exist('magnification')==0 || exist('optovar')==0 || exist('sideport')==0 || exist('binning')==0

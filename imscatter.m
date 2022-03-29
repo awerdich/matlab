@@ -45,6 +45,7 @@ else
     BACKUPSCATTER=[];
 end
 
+button=27;
 while button~=27 && button ~=127
     clear ax ay
     [ax,ay,button]=ginput(1);

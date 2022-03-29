@@ -60,10 +60,10 @@ sframe=1;%save frames and sum vectors
 %setframeumwidth=25;%frame unit length (40)[um]. If zero, use entire frame
 %setframeumheight=25;
 
-%setframeumwidth=0;
+setframeumwidth=0;
 
-setframeumwidth=40;%frame unit length (40)[um]. If zero, use entire frame
-setframeumheight=40;
+%setframeumwidth=40;%frame unit length (40)[um]. If zero, use entire frame
+%setframeumheight=40;
 
 %setframeumwidth=1500;%frame unit length (40)[um]. If zero, use entire frame
 %setframeumheight=1500;
@@ -417,7 +417,8 @@ if newfit==1 && vvectors==1
     fprintf(['mean velocity [mm/s]:',num2str(v),'\n']);
 %% restrict ROI within FRAME
 if cv==1 && showframe==1
-    askpolygon=input('Define closed polygon area in ROI? (1=YES)');
+    %askpolygon=input('Define closed polygon area in ROI? (1=YES)');
+    askpolygon=0;
     if askpolygon==1
         axes(isoczoom);
         polygonhandle=impoly(isoczoom);
