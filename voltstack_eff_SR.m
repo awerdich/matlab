@@ -1,0 +1,9 @@
+%%buildstack
+buildstack
+filterstack
+bleachfit_eff
+normalizestack_eff_cutoff15
+imscatter_eff
+apdmap
+activationtime
+%%end

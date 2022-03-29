@@ -1,0 +1,4 @@
+WNT11WTIP=[];
+for id = 1:length(FDATABASE)
+    WNT11WTIP=[WNT11WTIP,FDATABASE(id).v_TRACE];
+end
