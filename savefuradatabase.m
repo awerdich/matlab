@@ -210,4 +210,3 @@ if isempty(asksave)==1
     [FileName,PathName,FilterIndex] = uiputfile('*.mat','Save DATABASE',lastname);
 end
 save([PathName,FileName],'FDATABASE');
-FDATABASE(id)

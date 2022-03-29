@@ -31,14 +31,12 @@ showscalebar=0;%0 off 1 xonly 2 xy
 
 
 lowdelay=-1;%time delay to plot after smallest value4
-%range=70;%256
-%dt=1.3;%256
-
+range=70;
+dt=2;
 
 %range=275;
 %range=300;%range of times
-dt=10;%isochronal separation
-range=538;%New
+%dt=10;%isochronal separation
 
 matrixaspectratio=size(C,2)/size(C,1);%aspectratio of data input matrix [width/height]
 outputresolution=[1024,round(1024/matrixaspectratio)];%output image resolution [width, height]
@@ -62,8 +60,8 @@ sframe=1;%save frames and sum vectors
 
 %setframeumwidth=0;
 
-setframeumwidth=40;%frame unit length (40)[um]. If zero, use entire frame
-setframeumheight=40;
+setframeumwidth=30;%frame unit length (40)[um]. If zero, use entire frame
+setframeumheight=30;
 
 %setframeumwidth=1500;%frame unit length (40)[um]. If zero, use entire frame
 %setframeumheight=1500;
@@ -78,9 +76,9 @@ if cv==1
     vvectors=1;%1=show velocity vectors on contour plot
     plotvectors=1;%1=plot velocity vectors
     plotsumvector=0;%plot sum velocity vector
-    angleunitvectorinput=1;%manually input angle unit vecotor
+    angleunitvectorinput=1;%manually input angle unit vecotor 
     newfit=1;newestvel=1;
-    fillcontour='off';
+    fillcontour='on';
 else
     showframe=0;%1=show frame in isochronal map
     showimageframe=0;%1=show image frame
@@ -101,7 +99,7 @@ maxrmse=4;
 %EMBRYOS
 vectorscale=0.2;%scaling factor of velocity vector field (usually 0.2)
 sumvectorscale=2;
-normvectorscale=1;%scaling of normalized vector 0:not normalized
+normvectorscale=0;%scaling of normalized vector 0:not normalized
 
 %ADULT
 %vectorscale=0.02;%scaling factor of velocity vector field (usually 0.2)

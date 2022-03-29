@@ -183,7 +183,7 @@ tr=figure('Name','TRACE','MenuBar','none','Units','normalized','Position',[0.5 0
 
 axes(bwaxes);
 imshow(ASIGNALPIXELS,'InitialMagnification','fit');
-% button=0; commented out for efficiency (auto "ESC")
+button=0;
 
 while button~=27
     figure(bw);

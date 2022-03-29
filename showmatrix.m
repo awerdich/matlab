@@ -3,21 +3,21 @@ if exist('pixelcalfactor_x')==0
     mapconfig
 end
     
-%clear FRAMECENTER;%close all
+clear FRAMECENTER;%close all
 %DIASTOLIC CA
 %C=RLOW;limits=1;
 
 %CA RELEASE
 %C=(RHIGH-RLOW);limits=3;
 
-%CA TRANSIENT DURATION                             
-%C=DUR;limits=4;
+%CA TRANSIENT DURATION
+C=DUR;limits=4;
 
 %ACTION POTENTIAL DURATIONS
-C=APDMATRIX;limits=5;
+%C=APDMATRIX;limits=5;
 
 %ACTION POTENTIAL UPSTROKE VELOCITIES
-%C=VMAXMATRIXSM;limits=6;
+%C=VMAXMATRIXSM;limits=5;
 
 %CONDUCTION VELOCITIES
 %C=VELMATRIX;limits=7;
@@ -94,7 +94,7 @@ elseif limits==4
 %LIMITS APD
 elseif limits==5;
     lowlimit=50;
-    highlimit=600;
+    highlimit=400;
     stepsize=50;
     file=[stackfile(1:end-4),'-APD',num2str(lowlimit),'-',num2str(highlimit)];
 

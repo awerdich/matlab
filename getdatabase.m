@@ -121,7 +121,7 @@ for id=1:length(DATABASE)
         MI=DATABASE(id).(regionframevi);%[pixel/frame]
         MJ=DATABASE(id).(regionframevj);%[pixel/frame]
         %divergence for ROI
-        [DIVFIELD,VOUTLIERS]=cvdivergence(MJ,MI);
+        %[DIVFIELD,VOUTLIERS]=cvdivergence(MJ,MI);
         %collect velocities and divergences within ROI
         VECTORLIST=[];
         DIVLIST=[];%all divergence values
@@ -138,33 +138,14 @@ for id=1:length(DATABASE)
                         %collect velocities within POLYROI
                         if POLYROI(i,j)==1    
                             VECTORLIST=[VECTORLIST;[i,j,vi,vj,norm([vi,vj],2)]];
-                            %exclude bad pixels (NaN) and pixels with velocity outliers
-                            if isnan(DIVFIELD(i,j))==0 && DIVFIELD(i,j)~=0 && VOUTLIERS(i,j)==0  
-                                DIVLIST=[DIVLIST;[i,j,DIVFIELD(i,j)*scanrate]];%[1/s]
-                                if DIVFIELD(i,j)>0
-                                    DIVLISTPOSITIVE=[DIVLISTPOSITIVE;[i,j,DIVFIELD(i,j)*scanrate]];
-                                else
-                                    DIVLISTNEGATIVE=[DIVLISTNEGATIVE;[i,j,DIVFIELD(i,j)*scanrate]];
-                                end
-                            end
                         end
                     else
                         %add vectors in rectangulat ROI without POLYNOM
                         VECTORLIST=[VECTORLIST;[i,j,vi,vj,norm([vi,vj],2)]];
-                        if isnan(DIVFIELD(i,j))==0 && DIVFIELD(i,j)~=0 && VOUTLIERS(i,j)==0  
-                                DIVLIST=[DIVLIST;[i,j,DIVFIELD(i,j)*scanrate]];%[1/s]
-                                if DIVFIELD(i,j)>0
-                                    DIVLISTPOSITIVE=[DIVLISTPOSITIVE;[i,j,DIVFIELD(i,j)*scanrate]];
-                                else
-                                    DIVLISTNEGATIVE=[DIVLISTNEGATIVE;[i,j,DIVFIELD(i,j)*scanrate]];
-                                end
-                        end
                     end
                 end
             end
         end
-        
-        
         %% calculate angles
         %ANGLES
         %calculate mean velocity vector and angles
@@ -185,10 +166,10 @@ for id=1:length(DATABASE)
         VEL=[VEL;mean(VECTORLIST(:,5))];
         VELSTD=[VELSTD;std(VECTORLIST(:,5))];
         ANGLISTN=[ANGLISTN;ANGLIST];
-        DIV=[DIV;mean(DIVLIST(:,3))];
-        DIVOUTLIERS=[DIVOUTLIERS;bwarea(VOUTLIERS)];%number of pixels excluded from divergence calculation for this id.
-        DIVPOSITIVE=[DIVPOSITIVE;[mean(DIVLISTPOSITIVE(:,3))]];
-        DIVNEGATIVE=[DIVNEGATIVE;[mean(DIVLISTNEGATIVE(:,3))]];
+        %DIV=[DIV;mean(DIVLIST(:,3))];
+        %DIVOUTLIERS=[DIVOUTLIERS;bwarea(VOUTLIERS)];%number of pixels excluded from divergence calculation for this id.
+        %DIVPOSITIVE=[DIVPOSITIVE;[mean(DIVLISTPOSITIVE(:,3))]];
+        %DIVNEGATIVE=[DIVNEGATIVE;[mean(DIVLISTNEGATIVE(:,3))]];
         
 %         %calculate times to polarize entire ROI (IGNORE POLYNOM!)
 %         PLIST=[];POL_ROI=[];SORTPLIST=[];

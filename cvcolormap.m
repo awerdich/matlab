@@ -8,7 +8,7 @@ function [CVMAP]=cvcolormap(VFRAMEi,VFRAMEj,pixelcalfactor_i,pixelcalfactor_j,SI
 lowlimit=0;
 highlimit=10;
 resizefactor=10;%resize divergence image for plotting
-%outputresolution=resizefactor*[size(VFRAMEi,1),size(VFRAMEi,2)];%output image resolution [height length]
+outputresolution=resizefactor*[size(VFRAMEi,1),size(VFRAMEi,2)];%output image resolution [height length]
 %% absolute conduction velocities in ROI
 CVi=VFRAME
 

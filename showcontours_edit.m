@@ -31,14 +31,12 @@ showscalebar=0;%0 off 1 xonly 2 xy
 
 
 lowdelay=-1;%time delay to plot after smallest value4
-%range=70;%256
-%dt=1.3;%256
-
+range=70;
+dt=2;
 
 %range=275;
 %range=300;%range of times
-dt=10;%isochronal separation
-range=538;%New
+%dt=10;%isochronal separation
 
 matrixaspectratio=size(C,2)/size(C,1);%aspectratio of data input matrix [width/height]
 outputresolution=[1024,round(1024/matrixaspectratio)];%output image resolution [width, height]
@@ -54,7 +52,7 @@ numcolors=225;
 colormap(jet(numcolors));
 
 %FRAME
-%NFRAME=[];%comment to save frame coordinates
+NFRAME=1;%comment to save frame coordinates
 sframe=1;%save frames and sum vectors
 
 %setframeumwidth=25;%frame unit length (40)[um]. If zero, use entire frame
@@ -62,8 +60,8 @@ sframe=1;%save frames and sum vectors
 
 %setframeumwidth=0;
 
-setframeumwidth=40;%frame unit length (40)[um]. If zero, use entire frame
-setframeumheight=40;
+setframeumwidth=30;%frame unit length (40)[um]. If zero, use entire frame
+setframeumheight=30;
 
 %setframeumwidth=1500;%frame unit length (40)[um]. If zero, use entire frame
 %setframeumheight=1500;
@@ -78,9 +76,9 @@ if cv==1
     vvectors=1;%1=show velocity vectors on contour plot
     plotvectors=1;%1=plot velocity vectors
     plotsumvector=0;%plot sum velocity vector
-    angleunitvectorinput=1;%manually input angle unit vecotor
+    angleunitvectorinput=1;%manually input angle unit vecotor 
     newfit=1;newestvel=1;
-    fillcontour='off';
+    fillcontour='on';
 else
     showframe=0;%1=show frame in isochronal map
     showimageframe=0;%1=show image frame
@@ -101,7 +99,7 @@ maxrmse=4;
 %EMBRYOS
 vectorscale=0.2;%scaling factor of velocity vector field (usually 0.2)
 sumvectorscale=2;
-normvectorscale=1;%scaling of normalized vector 0:not normalized
+normvectorscale=0;%scaling of normalized vector 0:not normalized
 
 %ADULT
 %vectorscale=0.02;%scaling factor of velocity vector field (usually 0.2)
@@ -239,6 +237,10 @@ contresizefactor=10;
 CONTM=interp2(X,Y,C,INTERPX,INTERPY,'linear');%interpolated contourmatrix
 
 %% draw contour plot
+repeat=1;
+while repeat==1;
+    repeat=0;
+    clear FRAMECENTER;
 axes(isoc);
 caxis(COLORRANGE);
 [CONT,h]=contour(isoc,INTERPX,INTERPY,CONTM,[lowlimit:dt:highlimit],'LineColor','k');
@@ -265,7 +267,9 @@ text(70,78+yoffset-3,['\Deltat=',num2str(dt/scanrate*1.0e3),'ms'],'color','k','F
 end
 %% select zoom area and plot new contours
 %define width of frame
-axes(isoc)
+
+    
+    axes(isoc)
     if (setframeumwidth==0 || setframeumheight==0)
         if exist('FRAMECENTER','var')==0
             %use crop tool to define frame
@@ -306,33 +310,38 @@ axes(isoc)
  
  
  %check if Frame limits are consistent with array limit
- if FrameXLim(1)<1,framewidth=framewidth-(1-FrameXLim(1));FrameXLim(1)=1;end
- if FrameXLim(2)>size(C,2),framewidth=framewidth-(size(C,2)-FrameXLim(2));FrameXLim(2)=size(C,2);end
- if FrameYLim(1)<1,frameheight=frameheight-(1-FrameYLim(1));FrameYLim(1)=1;end
- if FrameYLim(2)>size(C,1),frameheight=frameheight-(size(C,1)-FrameYLim(2));FrameYLim(2)=size(C,1);end        
+     if FrameXLim(1)<1,framewidth=framewidth-(1-FrameXLim(1));FrameXLim(1)=1;end
+     if FrameXLim(2)>size(C,2),framewidth=framewidth-(size(C,2)-FrameXLim(2));FrameXLim(2)=size(C,2);end
+     if FrameYLim(1)<1,frameheight=frameheight-(1-FrameYLim(1));FrameYLim(1)=1;end
+    if FrameYLim(2)>size(C,1),frameheight=frameheight-(size(C,1)-FrameYLim(2));FrameYLim(2)=size(C,1);end        
         
  %re-set final frame width and frame height using FrameXLim, FrameYLim
- framewidth=FrameXLim(2)-FrameXLim(1);
- frameheight=FrameYLim(2)-FrameYLim(1);
- frameumwidth=framewidth*pixelcalfactor_x; 
- frameumheight=frameheight*pixelcalfactor_y; 
+    framewidth=FrameXLim(2)-FrameXLim(1);
+     frameheight=FrameYLim(2)-FrameYLim(1);
+     frameumwidth=framewidth*pixelcalfactor_x; 
+    frameumheight=frameheight*pixelcalfactor_y; 
 
  
  % add frame to mark selected area
-axes(isoc);
-if showframe==1
+    axes(isoc);
+    if showframe==1
     set(isoc,'DrawMode','normal');
     rectangle('Position',[FrameXLim(1),FrameYLim(1),framewidth,frameheight],'LineWidth',frameweight,'EdgeColor',framecolor,'LineStyle','--')
+    fprintf('ok? \n');
     %rectangle('Position',[FrameXLim(1),FrameYLim(1),framewidth,frameheight],'LineWidth',frameweight,'EdgeColor',framecolor,'LineStyle','--');
-end
+    end
 
 % save frame coordinates
-if exist('NFRAME')>0 && sframe>0
-    asksaveframe=input('save frame (1=yes)?');
-    if asksaveframe==1
-        NFRAME=[NFRAME;[FrameXLim,FrameYLim]];
-   end
-end 
+    if exist('NFRAME')>0 && sframe>0
+     asksaveframe=input('save frame (1=yes)?');
+        if asksaveframe==1
+            %NFRAME=[NFRAME;[FrameXLim,FrameYLim]];
+            repeat=0;
+        else
+            repeat=1;
+        end
+    end
+end
 % adjust aspectratio of zoom image
 frameaspectratio=framewidth/frameheight;
 WINDOWSIZEZOOM=zeros(size(windowsize));

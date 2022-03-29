@@ -37,7 +37,7 @@ for i=1:size(SCATTER,1)
     end
 end 
 %click pixels until ESC
-%button=0;
+button=0;
 %save copy of SCATTER ARRAY
 if exist('SCATTER')==1
     BACKUPSCATTER=SCATTER;

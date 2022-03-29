@@ -3,12 +3,11 @@ if exist('DATABASE','var')==0
 else
     id=size(DATABASE,2);
     size(DATABASE)
-%eff    fprintf(['previous heart, id:',num2str(id),' name:',num2str(DATABASE(id).name),'\n']);
+    fprintf(['previous heart, id:',num2str(id),' name:',num2str(DATABASE(id).name),'\n']);
     fprintf('continue? \n');
     id=input('next id:');
     pause
 end
-
 %% general information
 tracedownsample=1;%keep every nth sample
 if id>length(DATABASE)
@@ -28,25 +27,15 @@ if generalinput==1
     %nkx information
     %DATABASE(id).nkxtype=input('nkx mutant (homozygous ONLY) 0=TRUEWT 1=HET 25=nkx2.5 27=nkx2.7 2527=double:');
     
-    %DATABASE(id).date=input('date (yymmdd):');
-    %DATABASE(id).heart=input('heart number:');
-    %DATABASE(id).rate=input('HR (bpm):');
-    %DATABASE(id).scanrate=2000;
-    %DATABASE(id).sinusloc=input('impulse initiation 0=atrium 1=av 2=ventricle 3=fstim:');
-    %DATABASE(id).stim=input('stimulation rate 0:no stimulation (bpm):');
-    
-    %hard code inputs for efficiency:
-    DATABASE(id).date=[];
-    DATABASE(id).heart=[];
-    DATABASE(id).rate=[];
+    DATABASE(id).date=input('date (yymmdd):');
+    DATABASE(id).heart=input('heart number:');
+    DATABASE(id).rate=input('HR (bpm):');
     DATABASE(id).scanrate=2000;
-    DATABASE(id).sinusloc=[];
-    DATABASE(id).stim=[];
-    
+    DATABASE(id).sinusloc=input('impulse initiation 0=atrium 1=av 2=ventricle 3=fstim:');
+    DATABASE(id).stim=input('stimulation rate 0:no stimulation (bpm):');
     %rotate heart so that the atrium is on top. OFT is either left of
     %right. This defines the surface orientation of the heart
-    %DATABASE(id).orientation=input('With A on top, OFT is LEFT(1) or RIGHT(2):');
-    DATABASE(id).orientation=[];
+    DATABASE(id).orientation=input('With A on top, OFT is LEFT(1) or RIGHT(2):');
     
     %stretch information
 %   DATABASE(id).stretchregion=input('Area stretched (1) Atrium, (2) Ventricle:');
@@ -54,9 +43,7 @@ if generalinput==1
 %   DATABASE(id).recovertime=input('recovery time (minutes):');
 
     
-    %DATABASE(id).comment=input('comment:','s');
-    DATABASE(id).comment=[];
-    
+    DATABASE(id).comment=input('comment:','s');
     DATABASE(id).path=datapath;
     DATABASE(id).pixelcalfactori=pixelcalfactor_i;%pixel calibration [um/pixel]
     DATABASE(id).pixelcalfactorj=pixelcalfactor_j;%pixel calibration [um/pixel]
@@ -92,11 +79,7 @@ if exist('VPLOTBIN', 'var') == 1
 fprintf(['current id:',num2str(id),' \n']);
 DATABASE(id).name
 fprintf('continue? \n');
-
-%region=input('PIXELDATA region (sa, a, aic, aoc, av, v, vic, voc, o):','s');
-%hard code for efficiency
 region=input('PIXELDATA region (sa, a, aic, aoc, av, v, vic, voc, o):','s');
-
 clear regionv
 
 
@@ -173,10 +156,10 @@ DATABASE(id).(regionrepol)=REPOL_ROI;
 
 
 %update angleunitvector if it has been changed in showcontours
-% if isfield(DATABASE,'ANGLEUNITVECTORXY')==1 && (isempty(DATABASE(id).ANGLEUNITVECTORXY)==1 || sum(DATABASE(id).ANGLEUNITVECTORXY==angleunitvector)<2)
-%    DATABASE(id).ANGLEUNITVECTORXY=angleunitvector;%angle unit vector for specific region
-%    fprintf('Unitvector changed.\n');pause
-% end
+if isfield(DATABASE,'ANGLEUNITVECTORXY')==1 && (isempty(DATABASE(id).ANGLEUNITVECTORXY)==1 || sum(DATABASE(id).ANGLEUNITVECTORXY==angleunitvector)<2)
+   DATABASE(id).ANGLEUNITVECTORXY=angleunitvector;%angle unit vector for specific region
+   fprintf('Unitvector changed.\n');pause
+end
 
 
 %display data
@@ -208,16 +191,6 @@ save(filename,'DATABASE');
 
 end
 %% SAVE APDs
-
-% We are going to replace the SIGNAL matrix by SIGNAL_POLY if there is a polygon
-if (askpolygon==1) && (exist('SIGNAL_POLY', 'var')==1)
-    SIGNAL_0 = SIGNAL;
-    SIGNAL = SIGNAL_POLY;
-    fprintf('Considering only signals within polygon.')
-    signalframeinterpolygon=[region,'_SIGNAL_POLY'];%Binary image: Signals in polygon
-    DATABASE(id).(signalframeinterpolygon)=SIGNAL_POLY;
-end
-
 if exist('APDMATRIX')==1
     if exist('vinput','var')==0
         region=input('PIXELDATA region (sa, a, aic, aoc, av, v, vic, voc, o):','s');
@@ -354,6 +327,8 @@ PREAPD
 fprintf([' New APD (ms): ',num2str(DATABASE(id).(regionapd)),'\n']);
 fprintf([' New Vmax (1/s): ',num2str(DATABASE(id).(regionvmaxsm)),'\n']);
 
+
+
 % save to harddrive
 if exist('lastname')==0
     lastname=('DATABASE');
@@ -370,4 +345,3 @@ lastname=filename(1:end-4);
 save(filename,'DATABASE'); 
 end
 DATABASE(id)
-

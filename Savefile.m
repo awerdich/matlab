@@ -1,4 +1,4 @@
-sav%%Extract Values
+%%Extract Values
 N = zeros(51,1);
 nu = input('heart #:');
 name = DATABASE(nu).name;

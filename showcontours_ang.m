@@ -1,4 +1,5 @@
 %% SETTINGS
+% IMPROVED ANGLE UNITVECTOR INPUT
 %data input matrix
 C=POL;
 %save choice of input matrix
@@ -10,7 +11,9 @@ else
     pol1repol2=2;
 end
 
-clear FRAMECENTER; 
+clear FRAMECENTER;
+id = 1;
+FRAMECENTER_override=DATABASE(id).v_FRAMECENTER;
 %close all
 if exist('magnification','var')==0 || isempty(magnification)==1; mapconfig; end
 %define window size based on actual screen size
@@ -293,8 +296,10 @@ axes(isoc)
             ax=FRAMECENTER(2);ay=FRAMECENTER(1);
         else
             fprintf('select center of frame \n');
-            [ax,ay]=ginput(1);
-            FRAMECENTER(1)=floor(ay);FRAMECENTER(2)=floor(ax);%pixel
+            %[ax,ay]=ginput(1);
+            %FRAMECENTER(1)=floor(ay);FRAMECENTER(2)=floor(ax);%pixel
+            FRAMECENTER(1) = FRAMECENTER_override(1);
+            FRAMECENTER(2) = FRAMECENTER_override(2);
             %define frame width and height   
             framewidth=round(setframeumwidth/pixelcalfactor_x);
             frameheight=round(setframeumheight/pixelcalfactor_y);
@@ -571,7 +576,7 @@ if angleunitvectorinput==1
     if isempty(keepvector)==0
         %define new direction of propagation
         fprintf('select propagation direction (2 clicks)');
-        axes(isoc);
+        axes(isoczoom);
         INPUTPOINTS=floor(ginput(2));
         %plot new points
         rectangle('Position',[INPUTPOINTS(1,1),INPUTPOINTS(1,2),1,1],'FaceColor','m');

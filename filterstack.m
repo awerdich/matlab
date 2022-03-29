@@ -4,9 +4,9 @@
 %pre-allocate memory
 showfilter=1;
 PLOTLOCATION=[40,40];
-lpcutoff=120;%cutoff frequency of lowpass filter CAREFUL, AFFECTS CVs!!!!
-spatpix=4;%number of pixels in spatial filter 2 for good S/N 4 for bad S/N3
-medianfilter=40;%median filter
+lpcutoff=800;%cutoff frequency of lowpass filter CAREFUL, AFFECTS CVs!!!!
+spatpix=2;%number of pixels in spatial filter 2 for good S/N 4 for bad S/N3
+medianfilter=20;%median filter
 invertdata=1;%invert data if peaks go up
 %% get image stack name and location
 if exist('DATAST','var')==1
